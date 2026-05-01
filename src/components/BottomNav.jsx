@@ -1,6 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, CheckSquare, BookOpen, 
-         Lightbulb, AlertCircle } from 'lucide-react'
+import { Home, CheckSquare, BookOpen, Lightbulb, AlertCircle } from 'lucide-react'
 
 const navItems = [
   { path: '/dashboard', icon: Home, label: 'Home' },
@@ -14,13 +13,11 @@ export default function BottomNav() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const hideOn = ['/', '/onboarding', '/assessment']
+  const hideOn = ['/', '/counselor']
   if (hideOn.includes(location.pathname)) return null
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50
-                    bg-brand-900/95 backdrop-blur-md
-                    border-t border-blue-900/30">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 md:hidden">
       <div className="max-w-md mx-auto flex">
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path
@@ -30,21 +27,17 @@ export default function BottomNav() {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className={`flex-1 flex flex-col items-center 
-                         py-3 gap-1 transition-all
-                         ${isEmergency 
-                           ? 'text-red-400' 
-                           : isActive 
-                             ? 'text-blue-400' 
-                             : 'text-gray-500 hover:text-gray-300'
-                         }`}>
-              <Icon className={`w-5 h-5 
-                ${isEmergency && 'animate-pulse'}`} />
+              className={`flex-1 flex flex-col items-center py-3 gap-1 transition-all ${
+                isEmergency
+                  ? 'text-red-500'
+                  : isActive
+                  ? 'text-blue-600'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              <Icon className={`w-5 h-5 ${isEmergency && 'animate-pulse'}`} />
               <span className="text-xs">{label}</span>
-              {isActive && !isEmergency && (
-                <div className="w-1 h-1 bg-blue-400 
-                               rounded-full"/>
-              )}
+              {isActive && !isEmergency && <div className="w-1 h-1 bg-blue-600 rounded-full" />}
             </button>
           )
         })}
