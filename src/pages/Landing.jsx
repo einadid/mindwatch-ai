@@ -51,7 +51,7 @@ export default function Landing() {
             <div className="flex items-center gap-2 mb-6 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 w-fit">
               <Star className="w-4 h-4 text-yellow-500" />
               <span className="text-xs text-navy-800 font-medium">
-                Trusted by 1000+ Students
+                Trusted by 5+ Students
               </span>
             </div>
 

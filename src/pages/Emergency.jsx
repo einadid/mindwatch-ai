@@ -1,70 +1,58 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Phone, MessageCircle, Users, Wind, ShieldCheck, Clock } from 'lucide-react'
+import { MeditatingPerson } from '../components/Vectors'
 
 export default function Emergency() {
   const navigate = useNavigate()
   const [view, setView] = useState('main')
 
-  // ──────── BREATHING GUIDE ────────
   if (view === 'breathe') {
     return (
-      <div className="min-h-screen bg-brand-900 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
+          <h2 className="text-2xl font-bold text-navy-800 mb-2">Box Breathing</h2>
+          <p className="text-gray-400 mb-6">Follow the circle. Breathe slowly.</p>
 
-          <h2 className="text-2xl font-bold text-white mb-2">Box Breathing</h2>
-          <p className="text-gray-400 mb-8">Follow the circle. Breathe slowly and deeply.</p>
+          <div className="flex justify-center mb-6">
+            <MeditatingPerson className="w-48 h-48 animate-float" />
+          </div>
 
-          {/* breathing circle */}
           <div className="relative flex items-center justify-center mb-8">
-            <div className="w-48 h-48 rounded-full border-4 border-blue-500/50 flex items-center justify-center breathe">
+            <div className="w-48 h-48 rounded-full border-4 border-blue-300 flex items-center justify-center breathe bg-blue-50">
               <div>
-                <p className="text-blue-400 text-xl font-bold">BREATHE</p>
+                <p className="text-blue-600 text-xl font-bold">BREATHE</p>
                 <p className="text-gray-400 text-sm mt-1">Inhale... Hold... Exhale...</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-brand-800 border border-blue-900/30 rounded-2xl p-5 mb-6 text-left">
-            <p className="text-white font-semibold mb-3">How to do box breathing:</p>
+          <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 mb-6 text-left">
+            <p className="text-navy-800 font-semibold mb-3">Steps:</p>
             <div className="space-y-3">
               {[
-                { step: '1', text: 'Inhale slowly for 4 seconds', color: 'text-blue-400' },
-                { step: '2', text: 'Hold your breath for 4 seconds', color: 'text-purple-400' },
-                { step: '3', text: 'Exhale slowly for 4 seconds', color: 'text-green-400' },
-                { step: '4', text: 'Hold empty for 4 seconds', color: 'text-yellow-400' },
-              ].map((item) => (
-                <div key={item.step} className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-full bg-brand-700 flex items-center justify-center ${item.color} font-bold text-sm`}>
-                    {item.step}
-                  </div>
-                  <p className="text-gray-300 text-sm">{item.text}</p>
+                { s: '1', t: 'Inhale slowly for 4 seconds', c: 'text-blue-600' },
+                { s: '2', t: 'Hold breath for 4 seconds', c: 'text-purple-600' },
+                { s: '3', t: 'Exhale slowly for 4 seconds', c: 'text-green-600' },
+                { s: '4', t: 'Hold empty for 4 seconds', c: 'text-yellow-600' },
+              ].map((i) => (
+                <div key={i.s} className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center ${i.c} font-bold text-sm`}>{i.s}</div>
+                  <p className="text-gray-600 text-sm">{i.t}</p>
                 </div>
               ))}
             </div>
-            <p className="text-gray-500 text-xs mt-4">Repeat 4 times for best effect.</p>
           </div>
 
-          {/* grounding */}
-          <div className="bg-brand-800 border border-purple-500/20 rounded-2xl p-5 mb-6 text-left">
-            <p className="text-purple-400 font-semibold mb-3">5-4-3-2-1 Grounding Exercise</p>
-            <div className="space-y-2">
-              {[
-                '👀 Name 5 things you can SEE',
-                '👂 Name 4 things you can HEAR',
-                '✋ Name 3 things you can TOUCH',
-                '👃 Name 2 things you can SMELL',
-                '👅 Name 1 thing you can TASTE',
-              ].map((item) => (
-                <p key={item} className="text-gray-300 text-sm">{item}</p>
-              ))}
-            </div>
+          <div className="bg-purple-50 border border-purple-100 rounded-2xl p-5 mb-6 text-left">
+            <p className="text-purple-700 font-semibold mb-3">5-4-3-2-1 Grounding</p>
+            {['👀 5 things you SEE', '👂 4 things you HEAR', '✋ 3 things you TOUCH', '👃 2 things you SMELL', '👅 1 thing you TASTE'].map((i) => (
+              <p key={i} className="text-gray-600 text-sm mb-1">{i}</p>
+            ))}
           </div>
 
-          <button
-            onClick={() => setView('main')}
-            className="w-full bg-brand-700 hover:bg-brand-600 border border-blue-900/30 text-gray-300 py-4 rounded-2xl transition font-medium"
-          >
+          <button onClick={() => setView('main')}
+            className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 py-4 rounded-2xl transition font-medium">
             ← Back to help options
           </button>
         </div>
@@ -72,87 +60,56 @@ export default function Emergency() {
     )
   }
 
-  // ──────── COUNSELOR CONNECT ────────
   if (view === 'counselor') {
     return (
-      <div className="min-h-screen bg-brand-900 px-4 py-8">
+      <div className="min-h-screen bg-gray-50 px-4 py-8">
         <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl font-bold text-navy-800 mb-2">Connect with Counselor</h2>
+          <p className="text-gray-400 mb-6">A counselor has been notified.</p>
 
-          <h2 className="text-2xl font-bold text-white mb-2">Connect with Counselor</h2>
-          <p className="text-gray-400 mb-6">A counselor has been notified of your request.</p>
-
-          {/* available counselor */}
-          <div className="bg-green-900/10 border border-green-500/30 rounded-3xl p-5 mb-4">
+          <div className="bg-green-50 border border-green-100 rounded-3xl p-5 mb-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-green-400 font-semibold">1 counselor available</span>
+              <span className="text-green-700 font-semibold">1 counselor available</span>
             </div>
-
-            <div className="bg-brand-800 rounded-2xl p-4 mb-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-green-900/30 flex items-center justify-center">
-                  <span className="text-lg">👩‍⚕️</span>
-                </div>
+            <div className="bg-white rounded-2xl p-4 mb-4 border border-green-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center"><span>👩‍⚕️</span></div>
                 <div>
-                  <p className="text-white font-semibold text-sm">Campus Counselor</p>
-                  <p className="text-green-400 text-xs">Available now</p>
+                  <p className="text-navy-800 font-semibold text-sm">Campus Counselor</p>
+                  <p className="text-green-600 text-xs">Available now</p>
                 </div>
               </div>
             </div>
-
-            <button className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-4 rounded-2xl transition flex items-center justify-center gap-2">
-              <MessageCircle className="w-5 h-5" />
-              Start Chat Now
+            <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-2xl transition flex items-center justify-center gap-2">
+              <MessageCircle className="w-5 h-5" /> Start Chat Now
             </button>
           </div>
 
-          {/* book appointment */}
-          <div className="bg-brand-800 border border-blue-900/30 rounded-3xl p-5 mb-4">
+          <div className="bg-white border border-gray-100 rounded-3xl p-5 mb-4 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-5 h-5 text-blue-400" />
-              <p className="text-white font-semibold">Or book an appointment</p>
+              <Clock className="w-5 h-5 text-blue-600" />
+              <p className="text-navy-800 font-semibold">Book appointment</p>
             </div>
-
             <div className="space-y-2">
-              {['Today 3:00 PM', 'Today 5:00 PM', 'Tomorrow 10:00 AM', 'Tomorrow 2:00 PM'].map((time) => (
-                <button
-                  key={time}
-                  className="w-full bg-brand-700 hover:bg-brand-600 border border-blue-900/20 rounded-2xl py-3 text-gray-300 text-sm transition hover:border-blue-500/30"
-                >
-                  {time}
+              {['Today 3:00 PM', 'Today 5:00 PM', 'Tomorrow 10:00 AM', 'Tomorrow 2:00 PM'].map((t) => (
+                <button key={t} className="w-full bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-2xl py-3 text-gray-600 text-sm transition">
+                  {t}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* callback */}
-          <div className="bg-brand-800 border border-yellow-500/20 rounded-2xl p-4 mb-6">
-            <p className="text-yellow-300 font-semibold text-sm mb-1">
-              Can't find a time?
-            </p>
-            <p className="text-gray-400 text-sm mb-3">
-              Request a callback and a counselor will reach you within 24 hours.
-            </p>
-            <button className="w-full bg-yellow-600/20 hover:bg-yellow-600/30 border border-yellow-500/30 text-yellow-300 py-3 rounded-2xl transition text-sm font-medium">
-              Request Callback
-            </button>
-          </div>
-
-          {/* privacy note */}
-          <div className="bg-brand-800 border border-green-700/30 rounded-2xl p-4 mb-6">
+          <div className="bg-green-50 border border-green-100 rounded-2xl p-4 mb-6">
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="w-4 h-4 text-green-400" />
-              <p className="text-green-400 font-semibold text-sm">Privacy</p>
+              <ShieldCheck className="w-4 h-4 text-green-600" />
+              <p className="text-green-700 font-semibold text-sm">Privacy</p>
             </div>
-            <p className="text-gray-400 text-sm">
-              The counselor will only see your burnout score trend and agent flags. They will NOT see your private journal entries.
-            </p>
+            <p className="text-gray-500 text-sm">Counselor sees burnout trends only. Not private journal entries.</p>
           </div>
 
-          <button
-            onClick={() => setView('main')}
-            className="w-full bg-brand-700 hover:bg-brand-600 border border-blue-900/30 text-gray-300 py-4 rounded-2xl transition font-medium"
-          >
+          <button onClick={() => setView('main')}
+            className="w-full bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 py-4 rounded-2xl transition font-medium">
             ← Back to help options
           </button>
         </div>
@@ -160,107 +117,75 @@ export default function Emergency() {
     )
   }
 
-  // ──────── MAIN EMERGENCY SCREEN ────────
   return (
-    <div className="min-h-screen bg-brand-900 px-4 pt-20 pb-28">
+    <div className="min-h-screen bg-white px-4 pt-20 pb-28">
       <div className="max-w-lg mx-auto">
-
-        {/* back */}
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Dashboard</span>
+        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 text-gray-400 hover:text-navy-800 transition mb-8">
+          <ArrowLeft className="w-4 h-4" /><span className="text-sm">Dashboard</span>
         </button>
 
-        {/* hero */}
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">🫂</div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            We're here.
-          </h1>
-          <p className="text-gray-400 text-lg">
-            You're not alone. What do you need right now?
-          </p>
+          <h1 className="text-3xl font-bold text-navy-800 mb-2">We're here.</h1>
+          <p className="text-gray-400 text-lg">You're not alone. What do you need?</p>
         </div>
 
-        {/* options */}
         <div className="space-y-3 mb-8">
-
-          {/* counselor */}
-          <button
-            onClick={() => setView('counselor')}
-            className="w-full bg-blue-600/15 hover:bg-blue-600/25 border border-blue-500/30 rounded-3xl p-5 text-left transition flex items-center gap-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-blue-600/20 flex items-center justify-center flex-shrink-0">
-              <MessageCircle className="w-7 h-7 text-blue-400" />
+          <button onClick={() => setView('counselor')}
+            className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-3xl p-5 text-left transition flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <MessageCircle className="w-7 h-7 text-blue-600" />
             </div>
             <div>
-              <p className="text-white font-bold text-lg">Talk to a Counselor</p>
-              <p className="text-blue-300 text-sm">Connect with campus mental health support</p>
+              <p className="text-navy-800 font-bold text-lg">Talk to a Counselor</p>
+              <p className="text-blue-600 text-sm">Campus mental health support</p>
             </div>
           </button>
 
-          {/* breathe */}
-          <button
-            onClick={() => setView('breathe')}
-            className="w-full bg-purple-600/10 hover:bg-purple-600/20 border border-purple-500/30 rounded-3xl p-5 text-left transition flex items-center gap-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-purple-600/20 flex items-center justify-center flex-shrink-0">
-              <Wind className="w-7 h-7 text-purple-400" />
+          <button onClick={() => setView('breathe')}
+            className="w-full bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-3xl p-5 text-left transition flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+              <Wind className="w-7 h-7 text-purple-600" />
             </div>
             <div>
-              <p className="text-white font-bold text-lg">Help me breathe</p>
-              <p className="text-purple-300 text-sm">Guided breathing and grounding exercises</p>
+              <p className="text-navy-800 font-bold text-lg">Help me breathe</p>
+              <p className="text-purple-600 text-sm">Guided breathing & grounding</p>
             </div>
           </button>
 
-          {/* trusted contact */}
-          <button
-            onClick={() => {
-              alert('Alerting your trusted contact...\n\nMessage sent:\n"Your friend may need support right now. Please check on them."\n\nNo health details were shared.')
-            }}
-            className="w-full bg-green-600/10 hover:bg-green-600/20 border border-green-500/30 rounded-3xl p-5 text-left transition flex items-center gap-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-green-600/20 flex items-center justify-center flex-shrink-0">
-              <Users className="w-7 h-7 text-green-400" />
+          <button onClick={() => alert('Alert sent to your trusted contact.\n\n"Your friend may need support. Please check on them."\n\nNo health details shared.')}
+            className="w-full bg-green-50 hover:bg-green-100 border border-green-200 rounded-3xl p-5 text-left transition flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center flex-shrink-0">
+              <Users className="w-7 h-7 text-green-600" />
             </div>
             <div>
-              <p className="text-white font-bold text-lg">Alert my trusted contact</p>
-              <p className="text-green-300 text-sm">Send a private alert to someone you trust</p>
+              <p className="text-navy-800 font-bold text-lg">Alert trusted contact</p>
+              <p className="text-green-600 text-sm">Private alert to someone you trust</p>
             </div>
           </button>
 
-          {/* helpline */}
-          <a
-            href="tel:01779554391"
-            className="w-full bg-red-600/10 hover:bg-red-600/20 border border-red-500/30 rounded-3xl p-5 text-left transition flex items-center gap-4 block"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-red-600/20 flex items-center justify-center flex-shrink-0">
-              <Phone className="w-7 h-7 text-red-400" />
+          <a href="tel:01779554391"
+            className="w-full bg-red-50 hover:bg-red-100 border border-red-200 rounded-3xl p-5 text-left transition flex items-center gap-4 block">
+            <div className="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center flex-shrink-0">
+              <Phone className="w-7 h-7 text-red-600" />
             </div>
             <div>
-              <p className="text-white font-bold text-lg">Call a Helpline</p>
-              <p className="text-red-300 text-sm">Kaan Pete Roi — 24/7 mental health support</p>
+              <p className="text-navy-800 font-bold text-lg">Call a Helpline</p>
+              <p className="text-red-600 text-sm">Kaan Pete Roi — 24/7 support</p>
             </div>
           </a>
-
         </div>
 
-        {/* privacy */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-2xl p-4 mb-4">
+        <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <ShieldCheck className="w-4 h-4 text-green-400" />
-            <p className="text-green-400 font-semibold text-sm">Your Privacy</p>
+            <ShieldCheck className="w-4 h-4 text-green-600" />
+            <p className="text-green-700 font-semibold text-sm">Privacy</p>
           </div>
-          <p className="text-gray-400 text-sm">
-            All emergency actions are private and confidential. No information is shared with professors, parents, or anyone else without your explicit permission.
-          </p>
+          <p className="text-gray-500 text-sm">All actions are private. Nothing shared without your permission.</p>
         </div>
 
-        <p className="text-gray-600 text-xs text-center">
-          If you are in immediate danger, please call 999 (Bangladesh Emergency) or go to the nearest hospital.
+        <p className="text-gray-300 text-xs text-center">
+          Immediate danger? Call 999 or go to nearest hospital.
         </p>
       </div>
     </div>

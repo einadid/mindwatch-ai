@@ -7,58 +7,27 @@ export default function Suggestions() {
   const navigate = useNavigate()
   const { agentStatus, burnoutScore } = useApp()
 
-  const lunaRisk = agentStatus?.luna?.risk || 'low'
-  const focusRisk = agentStatus?.focus?.risk || 'low'
-  const calmRisk = agentStatus?.calm?.risk || 'low'
+  const getLevel = (risk) => (risk === 'high' || risk === 'critical') ? 'high' : 'low'
+  const luna = suggestionsByAgent.luna[getLevel(agentStatus?.luna?.risk)]
+  const focus = suggestionsByAgent.focus[getLevel(agentStatus?.focus?.risk)]
+  const calm = suggestionsByAgent.calm[getLevel(agentStatus?.calm?.risk)]
 
-  const getLunaLevel = () => (lunaRisk === 'high' || lunaRisk === 'critical') ? 'high' : 'low'
-  const getFocusLevel = () => (focusRisk === 'high' || focusRisk === 'critical') ? 'high' : 'low'
-  const getCalmLevel = () => (calmRisk === 'high' || calmRisk === 'critical') ? 'high' : 'low'
+  const byTime = (time) => [...luna, ...focus, ...calm].filter((s) => s.time === time)
 
-  const lunaSuggestions = suggestionsByAgent.luna[getLunaLevel()]
-  const focusSuggestions = suggestionsByAgent.focus[getFocusLevel()]
-  const calmSuggestions = suggestionsByAgent.calm[getCalmLevel()]
-
-  const morningItems = [
-    ...lunaSuggestions.filter((s) => s.time === 'morning'),
-    ...focusSuggestions.filter((s) => s.time === 'morning'),
-    ...calmSuggestions.filter((s) => s.time === 'morning'),
-  ]
-
-  const studyItems = [
-    ...focusSuggestions.filter((s) => s.time === 'study'),
-  ]
-
-  const afternoonItems = [
-    ...lunaSuggestions.filter((s) => s.time === 'afternoon'),
-    ...calmSuggestions.filter((s) => s.time === 'afternoon'),
-  ]
-
-  const nightItems = [
-    ...lunaSuggestions.filter((s) => s.time === 'night'),
-    ...calmSuggestions.filter((s) => s.time === 'night'),
-  ]
-
-  const anytimeItems = [
-    ...lunaSuggestions.filter((s) => s.time === 'anytime'),
-    ...focusSuggestions.filter((s) => s.time === 'anytime'),
-    ...calmSuggestions.filter((s) => s.time === 'anytime'),
-  ]
-
-  const renderSection = (title, icon, items, borderColor) => {
+  const Section = ({ title, icon, items, border }) => {
     if (!items.length) return null
     return (
-      <div className={`bg-brand-800 border ${borderColor} rounded-3xl p-5 mb-4`}>
+      <div className={`bg-white border ${border} rounded-3xl p-5 mb-4 shadow-sm`}>
         <div className="flex items-center gap-3 mb-4">
           {icon}
-          <h2 className="text-lg font-bold text-white">{title}</h2>
+          <h2 className="text-lg font-bold text-navy-800">{title}</h2>
         </div>
         <div className="space-y-3">
           {items.map((item, i) => (
-            <div key={i} className="flex items-start gap-4 bg-brand-700 border border-blue-900/20 rounded-2xl p-4">
+            <div key={i} className="flex items-start gap-4 bg-gray-50 border border-gray-100 rounded-2xl p-4">
               <span className="text-2xl">{item.icon}</span>
               <div>
-                <p className="text-white font-semibold text-sm mb-1">{item.title}</p>
+                <p className="text-navy-800 font-semibold text-sm mb-1">{item.title}</p>
                 <p className="text-gray-400 text-xs">{item.desc}</p>
               </div>
             </div>
@@ -69,103 +38,44 @@ export default function Suggestions() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-900 px-4 pt-20 pb-28">
-      <div className="max-w-3xl mx-auto">
-
-        {/* top */}
+    <div className="min-h-screen bg-gray-50 px-4 pt-20 pb-28">
+      <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm">Dashboard</span>
+          <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 text-gray-400 hover:text-navy-800 transition">
+            <ArrowLeft className="w-4 h-4" /><span className="text-sm">Dashboard</span>
           </button>
-          <p className="text-sm text-blue-400 font-medium">Smart Plan</p>
+          <p className="text-sm text-blue-600 font-semibold">Smart Plan</p>
         </div>
 
-        {/* header */}
         <div className="mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-yellow-600/20 border border-yellow-500/30 flex items-center justify-center mb-4">
-            <Brain className="w-7 h-7 text-yellow-400" />
+          <div className="w-14 h-14 rounded-2xl bg-yellow-50 border border-yellow-100 flex items-center justify-center mb-4">
+            <Brain className="w-7 h-7 text-yellow-600" />
           </div>
-
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Today's Smart Plan
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Personalized suggestions built by LUNA, FOCUS, and CALM based on your
-            check-in data, mood patterns, and stress level.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold text-navy-800 mb-3">Today's Smart Plan</h1>
+          <p className="text-gray-500">Personalized suggestions from LUNA, FOCUS, and CALM.</p>
         </div>
 
-        {/* score context */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-2xl p-4 mb-6">
+        <div className="bg-white border border-gray-100 rounded-2xl p-4 mb-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <p className="text-gray-400 text-sm">Current burnout score</p>
-            <p className="text-white font-bold text-lg">{burnoutScore || 28}/100</p>
+            <p className="text-gray-400 text-sm">Burnout score</p>
+            <p className="text-navy-800 font-bold text-lg">{burnoutScore || 28}/100</p>
           </div>
           <div className="flex items-center gap-4 mt-3">
-            <div className="flex items-center gap-2">
-              <span>🌙</span>
-              <span className="text-xs text-gray-400">LUNA: {agentStatus?.luna?.status || 'Stable'}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>⚡</span>
-              <span className="text-xs text-gray-400">FOCUS: {agentStatus?.focus?.status || 'Active'}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>🔵</span>
-              <span className="text-xs text-gray-400">CALM: {agentStatus?.calm?.status || 'Calm'}</span>
-            </div>
+            <span className="text-xs text-gray-400">🌙 {agentStatus?.luna?.status || 'Stable'}</span>
+            <span className="text-xs text-gray-400">⚡ {agentStatus?.focus?.status || 'Active'}</span>
+            <span className="text-xs text-gray-400">🔵 {agentStatus?.calm?.status || 'Calm'}</span>
           </div>
         </div>
 
-        {/* suggestion sections */}
-        {renderSection(
-          'Morning Routine',
-          <Sunrise className="w-5 h-5 text-orange-400" />,
-          morningItems,
-          'border-orange-500/20'
-        )}
+        <Section title="Morning Routine" icon={<Sunrise className="w-5 h-5 text-orange-500" />} items={byTime('morning')} border="border-orange-100" />
+        <Section title="Study Time" icon={<BookOpen className="w-5 h-5 text-yellow-500" />} items={byTime('study')} border="border-yellow-100" />
+        <Section title="Afternoon" icon={<Sunrise className="w-5 h-5 text-blue-500" />} items={byTime('afternoon')} border="border-blue-100" />
+        <Section title="Night Routine" icon={<Moon className="w-5 h-5 text-purple-500" />} items={byTime('night')} border="border-purple-100" />
+        <Section title="Anytime Support" icon={<Brain className="w-5 h-5 text-green-500" />} items={byTime('anytime')} border="border-green-100" />
 
-        {renderSection(
-          'Study Time',
-          <BookOpen className="w-5 h-5 text-yellow-400" />,
-          studyItems,
-          'border-yellow-500/20'
-        )}
-
-        {renderSection(
-          'Afternoon',
-          <Sunrise className="w-5 h-5 text-blue-400" />,
-          afternoonItems,
-          'border-blue-500/20'
-        )}
-
-        {renderSection(
-          'Night Routine',
-          <Moon className="w-5 h-5 text-purple-400" />,
-          nightItems,
-          'border-purple-500/20'
-        )}
-
-        {renderSection(
-          'Anytime Support',
-          <Brain className="w-5 h-5 text-green-400" />,
-          anytimeItems,
-          'border-green-500/20'
-        )}
-
-        {/* note */}
-        <div className="bg-brand-800 border border-green-700/30 rounded-2xl p-4 mt-6">
-          <p className="text-green-400 font-semibold text-sm mb-1">
-            About these suggestions
-          </p>
-          <p className="text-gray-400 text-sm">
-            These are evidence-based wellness techniques, not medical prescriptions.
-            If symptoms persist or worsen, please consult a mental health professional.
-          </p>
+        <div className="bg-green-50 border border-green-100 rounded-2xl p-4 mt-6">
+          <p className="text-green-700 font-semibold text-sm mb-1">About these suggestions</p>
+          <p className="text-gray-500 text-sm">Evidence-based wellness techniques, not medical prescriptions. Consult a professional if symptoms persist.</p>
         </div>
       </div>
     </div>

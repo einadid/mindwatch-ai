@@ -1,70 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  ArrowLeft, AlertTriangle, Clock, Users,
-  TrendingUp, ShieldCheck, CheckCircle2, Bell
-} from 'lucide-react'
+import { ArrowLeft, AlertTriangle, Clock, Users, TrendingUp, ShieldCheck, CheckCircle2, Brain } from 'lucide-react'
+import { DoctorVector } from '../components/Vectors'
 
-// demo data for counselor dashboard
-const demoStudents = [
-  {
-    id: 'STU-001',
-    score: 89,
-    level: 'CRITICAL',
-    status: 'Emergency triggered',
-    time: '11:34 PM',
-    luna: 'Critical',
-    focus: 'Alert',
-    calm: 'High',
-    emoji: '🔴',
-  },
-  {
-    id: 'STU-002',
-    score: 76,
-    level: 'HIGH RISK',
-    status: '5 consecutive low mood days',
-    time: '2:15 PM',
-    luna: 'Alert',
-    focus: 'Stable',
-    calm: 'Alert',
-    emoji: '🟠',
-  },
-  {
-    id: 'STU-003',
-    score: 72,
-    level: 'HIGH RISK',
-    status: 'Focus score dropped 40%',
-    time: '9:20 AM',
-    luna: 'Stable',
-    focus: 'Critical',
-    calm: 'Stable',
-    emoji: '🟠',
-  },
-  {
-    id: 'STU-004',
-    score: 65,
-    level: 'HIGH RISK',
-    status: 'Anxiety spikes 5x this week',
-    time: '8:45 AM',
-    luna: 'Watch',
-    focus: 'Stable',
-    calm: 'Critical',
-    emoji: '🟠',
-  },
-  {
-    id: 'STU-005',
-    score: 48,
-    level: 'STRESSED',
-    status: 'Moderate stress pattern',
-    time: '7:30 AM',
-    luna: 'Watch',
-    focus: 'Watch',
-    calm: 'Stable',
-    emoji: '🟡',
-  },
+const students = [
+  { id: 'STU-001', score: 89, level: 'CRITICAL', status: 'Emergency triggered', time: '11:34 PM', luna: 'Critical', focus: 'Alert', calm: 'High', emoji: '🔴' },
+  { id: 'STU-002', score: 76, level: 'HIGH RISK', status: '5 low mood days', time: '2:15 PM', luna: 'Alert', focus: 'Stable', calm: 'Alert', emoji: '🟠' },
+  { id: 'STU-003', score: 72, level: 'HIGH RISK', status: 'Focus dropped 40%', time: '9:20 AM', luna: 'Stable', focus: 'Critical', calm: 'Stable', emoji: '🟠' },
+  { id: 'STU-004', score: 65, level: 'HIGH RISK', status: 'Anxiety 5x/week', time: '8:45 AM', luna: 'Watch', focus: 'Stable', calm: 'Critical', emoji: '🟠' },
+  { id: 'STU-005', score: 48, level: 'STRESSED', status: 'Moderate stress', time: '7:30 AM', luna: 'Watch', focus: 'Watch', calm: 'Stable', emoji: '🟡' },
 ]
 
-const demoAppointments = [
+const appts = [
   { time: '10:00 AM', student: 'STU-002', type: 'Follow-up' },
   { time: '2:00 PM', student: 'STU-003', type: 'First session' },
   { time: '4:00 PM', student: '—', type: 'Open slot' },
@@ -72,233 +19,168 @@ const demoAppointments = [
 
 export default function Counselor() {
   const navigate = useNavigate()
-  const [view, setView] = useState('dashboard')
 
   return (
-    <div className="min-h-screen bg-brand-900 px-4 pt-6 pb-12">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50 px-4 py-6">
+      <div className="max-w-5xl mx-auto">
 
-        {/* top */}
+        {/* Navbar */}
         <div className="flex items-center justify-between mb-6">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm">Back</span>
-          </button>
-
           <div className="flex items-center gap-2">
+            <Brain className="w-6 h-6 text-blue-600" />
+            <span className="font-bold text-navy-800">MindWatch <span className="text-blue-600">AI</span></span>
+          </div>
+          <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-green-400 text-sm font-medium">
-              Counselor Mode
-            </span>
+            <span className="text-green-600 text-sm font-semibold">Counselor Mode</span>
+            <button onClick={() => navigate('/')} className="text-gray-400 hover:text-navy-800 text-sm ml-4">← Back</button>
           </div>
         </div>
 
-        {/* header */}
-        <div className="mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-green-600/20 border border-green-500/30 flex items-center justify-center mb-4">
-            <ShieldCheck className="w-7 h-7 text-green-400" />
+        {/* Header */}
+        <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
+          <div>
+            <div className="w-14 h-14 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mb-4">
+              <ShieldCheck className="w-7 h-7 text-green-600" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-navy-800 mb-3">Counselor Dashboard</h1>
+            <p className="text-gray-500">Monitor student wellness alerts and manage appointments. All data is anonymized.</p>
           </div>
-
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Counselor Dashboard
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Monitor student wellness alerts, manage appointments, and respond to
-            emergency support requests. All data shown is anonymized.
-          </p>
+          <div className="hidden md:flex justify-center animate-float">
+            <DoctorVector className="w-56 h-56" />
+          </div>
         </div>
 
-        {/* stats */}
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {[
-            { label: 'Urgent', value: '1', color: 'text-red-400', border: 'border-red-500/30' },
-            { label: 'High Risk', value: '3', color: 'text-orange-400', border: 'border-orange-500/30' },
-            { label: 'Stressed', value: '1', color: 'text-yellow-400', border: 'border-yellow-500/30' },
-            { label: 'Total Active', value: '47', color: 'text-blue-400', border: 'border-blue-500/30' },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className={`bg-brand-800 border ${stat.border} rounded-2xl p-4 text-center`}
-            >
-              <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>
-              <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
+            { label: 'Urgent', value: '1', color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-100' },
+            { label: 'High Risk', value: '3', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
+            { label: 'Stressed', value: '1', color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-100' },
+            { label: 'Total Active', value: '47', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
+          ].map((s) => (
+            <div key={s.label} className={`${s.bg} border ${s.border} rounded-2xl p-4 text-center`}>
+              <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
+              <p className="text-gray-400 text-xs mt-1">{s.label}</p>
             </div>
           ))}
         </div>
 
-        {/* urgent alerts */}
-        <div className="bg-red-900/10 border border-red-500/20 rounded-3xl p-5 mb-6">
+        {/* Urgent */}
+        <div className="bg-red-50 border border-red-100 rounded-3xl p-5 mb-6">
           <div className="flex items-center gap-3 mb-4">
-            <AlertTriangle className="w-5 h-5 text-red-400" />
-            <h2 className="text-lg font-bold text-white">Urgent Alerts</h2>
-            <span className="text-xs bg-red-900/40 text-red-400 px-2 py-1 rounded-full">
-              1 pending
-            </span>
+            <AlertTriangle className="w-5 h-5 text-red-600" />
+            <h2 className="text-lg font-bold text-navy-800">Urgent Alert</h2>
+            <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">1 pending</span>
           </div>
-
-          <div className="bg-brand-800 border border-red-500/20 rounded-2xl p-4">
+          <div className="bg-white border border-red-200 rounded-2xl p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <span className="text-lg">🔴</span>
+                <span>🔴</span>
                 <div>
-                  <p className="text-white font-semibold text-sm">
-                    {demoStudents[0].id}
-                  </p>
-                  <p className="text-red-400 text-xs">
-                    Score: {demoStudents[0].score}/100 — {demoStudents[0].status}
-                  </p>
+                  <p className="text-navy-800 font-semibold text-sm">STU-001</p>
+                  <p className="text-red-600 text-xs">Score: 89/100 — Emergency triggered</p>
                 </div>
               </div>
-              <span className="text-gray-500 text-xs">{demoStudents[0].time}</span>
+              <span className="text-gray-400 text-xs">11:34 PM</span>
             </div>
-
             <div className="flex gap-2 flex-wrap">
-              <button className="bg-red-600 hover:bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition">
-                Respond Now
-              </button>
-              <button className="bg-brand-700 hover:bg-brand-600 border border-blue-900/20 text-gray-300 text-sm px-4 py-2 rounded-xl transition">
-                Schedule Call
-              </button>
-              <button className="bg-brand-700 hover:bg-brand-600 border border-blue-900/20 text-gray-300 text-sm px-4 py-2 rounded-xl transition">
-                Send Resource
-              </button>
+              <button className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Respond Now</button>
+              <button className="bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-xl transition">Schedule Call</button>
+              <button className="bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-xl transition">Send Resource</button>
             </div>
           </div>
         </div>
 
-        {/* high risk students */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-3xl p-5 mb-6">
+        {/* At Risk */}
+        <div className="bg-white border border-gray-100 rounded-3xl p-5 mb-6 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <TrendingUp className="w-5 h-5 text-orange-400" />
-            <h2 className="text-lg font-bold text-white">At-Risk Students</h2>
+            <TrendingUp className="w-5 h-5 text-orange-500" />
+            <h2 className="text-lg font-bold text-navy-800">At-Risk Students</h2>
           </div>
-
           <div className="space-y-3">
-            {demoStudents.slice(1).map((student) => (
-              <div
-                key={student.id}
-                className="bg-brand-700 border border-blue-900/15 rounded-2xl p-4"
-              >
+            {students.slice(1).map((s) => (
+              <div key={s.id} className="bg-gray-50 border border-gray-100 rounded-2xl p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
-                    <span>{student.emoji}</span>
+                    <span>{s.emoji}</span>
                     <div>
-                      <p className="text-white font-semibold text-sm">{student.id}</p>
-                      <p className="text-gray-400 text-xs">{student.status}</p>
+                      <p className="text-navy-800 font-semibold text-sm">{s.id}</p>
+                      <p className="text-gray-400 text-xs">{s.status}</p>
                     </div>
                   </div>
-
                   <div className="text-right">
-                    <p className="text-white font-bold text-sm">{student.score}/100</p>
-                    <p className="text-gray-500 text-xs">{student.time}</p>
+                    <p className="text-navy-800 font-bold text-sm">{s.score}/100</p>
+                    <p className="text-gray-400 text-xs">{s.time}</p>
                   </div>
                 </div>
-
-                <div className="flex gap-4 mt-2 pt-2 border-t border-blue-900/15">
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs">🌙</span>
-                    <span className="text-xs text-gray-400">{student.luna}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs">⚡</span>
-                    <span className="text-xs text-gray-400">{student.focus}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs">🔵</span>
-                    <span className="text-xs text-gray-400">{student.calm}</span>
-                  </div>
+                <div className="flex gap-4 mt-2 pt-2 border-t border-gray-100">
+                  <span className="text-xs text-gray-400">🌙 {s.luna}</span>
+                  <span className="text-xs text-gray-400">⚡ {s.focus}</span>
+                  <span className="text-xs text-gray-400">🔵 {s.calm}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* appointments */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-3xl p-5 mb-6">
+        {/* Appointments */}
+        <div className="bg-white border border-gray-100 rounded-3xl p-5 mb-6 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <Clock className="w-5 h-5 text-blue-400" />
-            <h2 className="text-lg font-bold text-white">Today's Appointments</h2>
+            <Clock className="w-5 h-5 text-blue-600" />
+            <h2 className="text-lg font-bold text-navy-800">Today's Appointments</h2>
           </div>
-
           <div className="space-y-2">
-            {demoAppointments.map((appt, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between bg-brand-700 border border-blue-900/15 rounded-2xl p-4"
-              >
+            {appts.map((a, i) => (
+              <div key={i} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-2xl p-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-blue-400 font-mono text-sm font-medium w-20">
-                    {appt.time}
-                  </span>
+                  <span className="text-blue-600 font-mono text-sm font-medium w-20">{a.time}</span>
                   <div>
-                    <p className="text-white text-sm font-medium">{appt.student}</p>
-                    <p className="text-gray-500 text-xs">{appt.type}</p>
+                    <p className="text-navy-800 text-sm font-medium">{a.student}</p>
+                    <p className="text-gray-400 text-xs">{a.type}</p>
                   </div>
                 </div>
-                {appt.student !== '—' && (
-                  <button className="text-xs text-blue-400 hover:text-blue-300 transition">
-                    View
-                  </button>
-                )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* campus stats */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-3xl p-5 mb-6">
+        {/* Campus */}
+        <div className="bg-white border border-gray-100 rounded-3xl p-5 mb-6 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <Users className="w-5 h-5 text-green-400" />
-            <h2 className="text-lg font-bold text-white">Campus Overview</h2>
+            <Users className="w-5 h-5 text-green-600" />
+            <h2 className="text-lg font-bold text-navy-800">Campus Overview</h2>
           </div>
-
           <div className="grid md:grid-cols-3 gap-3">
-            <div className="bg-brand-700 border border-blue-900/15 rounded-2xl p-4 text-center">
-              <p className="text-2xl font-bold text-white">58</p>
-              <p className="text-gray-500 text-xs">Avg Burnout Score</p>
-              <p className="text-yellow-400 text-xs mt-1">↑ Exam week effect</p>
-            </div>
-
-            <div className="bg-brand-700 border border-blue-900/15 rounded-2xl p-4 text-center">
-              <p className="text-2xl font-bold text-white">34</p>
-              <p className="text-gray-500 text-xs">Emergency Responses</p>
-              <p className="text-gray-500 text-xs mt-1">This month</p>
-            </div>
-
-            <div className="bg-brand-700 border border-blue-900/15 rounded-2xl p-4 text-center">
-              <p className="text-2xl font-bold text-white">4.2h</p>
-              <p className="text-gray-500 text-xs">Avg Response Time</p>
-              <p className="text-green-400 text-xs mt-1">Under SLA target</p>
-            </div>
+            {[
+              { val: '58', label: 'Avg Burnout Score', sub: '↑ Exam week', color: 'text-yellow-600' },
+              { val: '34', label: 'Emergency Responses', sub: 'This month', color: 'text-gray-500' },
+              { val: '4.2h', label: 'Avg Response Time', sub: 'Under SLA', color: 'text-green-600' },
+            ].map((s) => (
+              <div key={s.label} className="bg-gray-50 border border-gray-100 rounded-2xl p-4 text-center">
+                <p className="text-2xl font-bold text-navy-800">{s.val}</p>
+                <p className="text-gray-400 text-xs">{s.label}</p>
+                <p className={`text-xs mt-1 ${s.color}`}>{s.sub}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* privacy reminder */}
-        <div className="bg-brand-800 border border-green-700/30 rounded-2xl p-4 mb-6">
+        {/* Privacy */}
+        <div className="bg-green-50 border border-green-100 rounded-2xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <ShieldCheck className="w-4 h-4 text-green-400" />
-            <p className="text-green-400 font-semibold text-sm">Data Privacy</p>
+            <ShieldCheck className="w-4 h-4 text-green-600" />
+            <p className="text-green-700 font-semibold text-sm">Data Privacy</p>
           </div>
-          <p className="text-gray-400 text-sm">
-            You are viewing anonymized data only. Private journal entries and personal
-            conversations are never accessible through this dashboard. Student identity
-            is protected by anonymous IDs.
-          </p>
+          <p className="text-gray-500 text-sm">Anonymized data only. Journal entries and conversations are never accessible.</p>
         </div>
 
-        {/* ethics */}
-        <div className="bg-brand-800 border border-blue-900/30 rounded-2xl p-4">
+        <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-2">
-            <CheckCircle2 className="w-4 h-4 text-blue-400" />
-            <p className="text-blue-400 font-semibold text-sm">Reminder</p>
+            <CheckCircle2 className="w-4 h-4 text-blue-600" />
+            <p className="text-blue-700 font-semibold text-sm">Reminder</p>
           </div>
-          <p className="text-gray-400 text-sm">
-            MindWatch AI flags patterns — it does not diagnose. All clinical decisions
-            remain with you as the qualified professional. The app screens; the doctor diagnoses.
-          </p>
+          <p className="text-gray-500 text-sm">MindWatch AI flags patterns — it does not diagnose. The app screens; the doctor diagnoses.</p>
         </div>
       </div>
     </div>
